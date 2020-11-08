@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-warning alert-dismissable" role="alert">
+                <button class="close" data-dismiss="alert">
+                    <small><sup>x</sup></small>
+                </button>
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% if all_items %}
+        <div class="mt-3">
+            <table class="table table-bordered">
+                {% for things in all_items %}
+                    {% if things.completed %}
+                        <tr class="table-secondary">
+                            <td class="striker" ><a style="color: black; text-decoration: none;" class="font-weight-bold" href="{% url 'todo_list:edit' things.id %}">{{ things.item }}</a></td>
+                            <td><center><a href="{% url 'todo_list:uncross' things.id %}">Uncross</a></center></td>
+                            <td><center><a style="color: red;" href="{% url 'todo_list:delete' things.id %}">Delete</a></center></td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td ><a style="color: black; text-decoration: none;" class="font-weight-bold" href="{% url 'todo_list:edit' things.id %}">{{ things.item }}</a></td>
+                            <td><center><a href="{% url 'todo_list:cross_off' things.id %}">Cross off</a></center></td>
+                            <td><center><a style="color: red;" href="{% url 'todo_list:delete' things.id %}">Delete</a></center></td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </table>
+        </div>
+    {% else %}
+        <div class="col text-center font-weight-bold h2 text-success">
+            Add a Task now!
+        </div>
+
+        <div class="">
+            <label class="fas fa-grin-beam text-center" style="font-size: 250px; justify-content: center; color: green; display: flex;"></label>
+        </div>
+    {% endif %}
+
+{% endblock %}
